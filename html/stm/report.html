@@ -1,0 +1,30 @@
+{{ define "report" }}
+    <div class="container">
+        <h1>Overview of model: .Root</h1>
+        {{ $name := .Root }}
+        <p>
+            {{ range $mode := .PlotModes }}
+            
+            <button data-toggle="collapse"
+             data-target={{ printf "#%s_%s" $name $mode}}
+             class="btn btn-primary" role="button">
+                $mode
+            </button>
+            
+            {{ end }}
+        </p>
+        <div>
+            {{ range $var := .ToPlot }}
+                {{ $p := .Figure.Join $var.GetFilename "setup001.png" }}
+                
+                {{ if $p.IsFile }}
+                    <div>
+                        <b>$var.Name</b>
+                        <img src=$p.String>
+                    </div>
+                {{ end }}
+            {{ end }}
+        </div>
+    </div>
+{{ end }}
+
